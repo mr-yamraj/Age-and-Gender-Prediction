@@ -1,0 +1,150 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Jquery Ajax File Upload</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}
+</style>
+    </head>
+    <body>
+        <div id="container">
+    <video autoplay="true" id="videoElement">
+     
+    </video>
+</div>
+<div id="age">AGE:</div>
+<div id="gender">GENDER:</div>
+<button onclick="shoot()" id="button" style="width: 64px;border: solid 2px #ccc;">Start Prediction</button><br/>
+<a href="{% url 'index' %}">Stop Prediction</a>
+<!--     <div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
+ -->        <script>
+        var video = document.querySelector("#videoElement");
+ 
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+ 
+if (navigator.getUserMedia) {       
+    navigator.getUserMedia({video: true}, handleVideo, videoError);
+}
+ 
+function handleVideo(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}
+ 
+function videoError(e) {
+    // do something
+}
+
+var videoId = 'videoElement';
+var scaleFactor = 1;
+var snapshots = [];
+ 
+/**
+ * Captures a image frame from the provided video element.
+ *
+ * @param {Video} video HTML5 video element from where the image frame will be captured.
+ * @param {Number} scaleFactor Factor to scale the canvas element that will be return. This is an optional parameter.
+ *
+ * @return {Canvas}
+ */
+function capture(video, scaleFactor) {
+    if(scaleFactor == null){
+        scaleFactor = 1;
+    }
+    var w = video.videoWidth * scaleFactor;
+    var h = video.videoHeight * scaleFactor;
+    var canvas = document.createElement('canvas');
+        canvas.width  = w;
+        canvas.height = h;
+    var ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, w, h);
+    return canvas;
+} 
+ 
+/**
+ * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
+ */
+function shoot(){
+    // var video  = document.getElementById(videoId);
+    // var output = document.getElementById('output');
+    var canvas = capture(video, scaleFactor);
+        canvas.onclick = function(){
+            window.open(this.toDataURL());
+        };
+    image_data = canvas.toDataURL();
+    // console.log(image_data);
+    // // create_post(image_data);
+    // snapshots.unshift(canvas);
+    // output.innerHTML = '';
+    // for(var i=0; i<4; i++){
+    //     // output.appendChild(snapshots[i]);
+    //     output.appendChild(canvas);
+    // }
+    var file = dataURItoBlob(image_data);
+    var form = new FormData();
+                form.append('image', file);
+                $.ajax({
+                    url : "/validate/",
+                    type: "POST",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data : form,
+                    success: function(response){
+                    	if(response.age != "0"){
+                        document.getElementById('age').innerHTML = "AGE : ".concat(response.age);
+                        document.getElementById('gender').innerHTML = "GENDER : ".concat(response.gender);
+                    }
+                        document.getElementById("button").click()
+                    }
+                });
+}
+function dataURItoBlob(dataURI) {
+// convert base64/URLEncoded data component to raw binary data held in a string
+var byteString;
+if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    byteString = atob(dataURI.split(',')[1]);
+else
+    byteString = unescape(dataURI.split(',')[1]);
+// separate out the mime component
+var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+// write the bytes of the string to a typed array
+var ia = new Uint8Array(byteString.length);
+for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+}
+return new Blob([ia], {type:mimeString});
+}
+        // $(document).ready(function(){
+        //     $('#image').change(function(e){
+        //         var file = $('#image')[0].files[0];
+        //         console.log(file);
+        //         var form = new FormData();
+        //         form.append('image', file);
+        //         $.ajax({
+        //             url : "/validate/",
+        //             type: "POST",
+        //             cache: false,
+        //             contentType: false,
+        //             processData: false,
+        //             data : form,
+        //             success: function(response){
+        //                 $('.result').html(response.html)
+        //             }
+        //         });
+        //     });
+        // });
+        </script>
+    </body>
+    </html>
