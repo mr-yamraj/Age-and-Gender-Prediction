@@ -1,0 +1,583 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Jquery Ajax File Upload</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+	<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <style>
+body{
+  background-color: #2B2B2B;
+}
+#container2 {
+    margin: 0px auto;
+    margin-bottom: 0px;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
+#videoElement {
+  width: 80%;
+    height: auto;
+    /*width: 500px;*/
+    /*height: 375px;*/
+    /*background-color: #666;*/
+}
+.wrap{
+    text-align:center
+}
+.left{
+    float: left;
+    /*background:grey*/
+}
+.right{
+    float: right;
+    /*background:red*/
+}
+.center{
+ 
+    /*background:green;*/
+    margin:0 auto;
+   display:inline-block
+}
+
+
+.shadow {
+	  margin-left: 150px;
+  margin-right: -150px;
+-webkit-border-radius: 0% 0% 100% 100% / 0% 0% 8px 8px;
+-webkit-box-shadow: rgba(0, 0, 0,.30) 0 2px 3px;
+}
+.container1 {
+color: black;
+  margin: 0 auto;
+  margin-top: 0px;
+  height: 35vh;
+  background: #F2F2F2;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 2px #fff inset,
+              -1px -1px 2px #fff inset;
+  border-radius: 3px/6px;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #222;
+}
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+
+</style>
+    </head>
+    <body>
+    <canvas id="c" width="400" height="200"></canvas>
+    <!-- <div class="tab"> -->
+<div class="container">
+  <h2>AI AVATAR</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Live Video Prediction</a></li>
+    <li><a data-toggle="tab" href="#menu1">Image Prediction</a></li>
+    <li><a data-toggle="tab" href="#menu2">Video Prediction</a></li>
+    <!-- <li><a data-toggle="tab" href="#menu3">Menu 3</a></li> -->
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+<div class="row text-center" style="margin-top: 1em; margin-bottom: 1em;">
+    <div class="col-sm-4" style="background-color: #3B3B3B; padding: 1em; border-radius: 1em;">
+    <button type="button" onclick="shoot()" id="button" class="btn btn-success">Start Prediction</button>
+    <button type="button" onclick="shoot_stop()" class="btn btn-danger">Stop Prediction</button>
+<div class="media">
+    <div class="media-left media-middle">
+      <img src="{% static 'avatar-profile.png' %}" id="avatar1" class="media-object image-circle" style="width:100px; border-radius:50px">
+      <button type="button" class="btn btn-info" onclick="reload_avatar1()">
+      <span class="glyphicon glyphicon-refresh"></span> Reload
+
+    </div>
+    <div class="media-body">
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td >AGE</td>
+        <td id="age1">23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td id="gender1">M</td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+  </div>
+  <hr>
+  
+  <!-- Right-aligned media object -->
+  <div class="media">
+    <div class="media-body">
+      <!-- <h4 class="media-heading">Person2</h4> -->
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>AGE</td>
+        <td id="age2">23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td id="gender2">M</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+    <div class="media-right media-middle">
+      <img src="{% static 'avatar-profile.png' %}" id="avatar2" class="media-object" style="width:100px; border-radius:50px">
+      <button type="button" onclick="reload_avatar2()" class="btn btn-info">
+      <span class="glyphicon glyphicon-refresh"></span> Reload
+    </button>
+    </div>
+  </div>
+
+<!-- <button class="custom-btn btn-4"><span><div id="age">AGE:</div></span></button> -->
+  <!-- <button class="custom-btn btn-5"><span><div id="gender">GENDER:</div></span></button></div> -->
+  </div>
+    <div class="col-sm-8">
+    <video autoplay="true" id="videoElement">
+    </video>
+  </div>
+  </div>
+</div>
+    <div id="menu1" class="tab-pane fade">
+<div class="row text-center" style="margin-top: 1em; margin-bottom: 1em;">
+    <div class="col-sm-4" style="background-color: #3B3B3B; padding: 1em; border-radius: 1em;">
+    <input type="file" onchange="readURL(this);" name="myfile" id="image"><br/>
+    <button type="button" onclick="predict_image()" id="button" class="btn btn-success">Upload And Predict</button>
+<div class="media">
+    <div class="media-left media-middle">
+      <img src="{% static 'avatar-profile.png' %}" id="avatar_image1" class="media-object" style="width:100px; border-radius:50px">
+
+    </div>
+    <div class="media-body">
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>AGE</td>
+        <td id="age_image1">23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td id="gender_image1">M</td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+  </div>
+  <hr>
+  
+  <!-- Right-aligned media object -->
+  <div class="media">
+    <div class="media-body">
+      <!-- <h4 class="media-heading">Person2</h4> -->
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>AGE</td>
+        <td id="age_image2">23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td id="gender_image2">M</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+    <div class="media-right media-middle">
+      <img src="{% static 'avatar-profile.png' %}" id="avatar_image2" class="media-object" style="width:100px; border-radius:50px">
+    </div>
+  </div>
+
+<!-- <button class="custom-btn btn-4"><span><div id="age">AGE:</div></span></button> -->
+  <!-- <button class="custom-btn btn-5"><span><div id="gender">GENDER:</div></span></button></div> -->
+  </div>
+    <div class="col-sm-8">
+    <img id="blah" src="#" alt="your image" />
+  </div>
+  </div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+<div class="row text-center" style="margin-top: 1em; margin-bottom: 1em;">
+    <div class="col-sm-4" style="background-color: #3B3B3B; padding: 1em; border-radius: 1em;">
+        <input type="file" name="myfile" id="upload_video"><br/>
+    <button type="button" onclick="upload_video()" id="button" class="btn btn-success">Upload And Predict</button>
+<div class="media">
+    <div class="media-left media-middle">
+      <img src="{% static 'avatar-profile.png' %}" class="media-object" style="width:100px">
+      <button type="button" class="btn btn-info">
+      <span class="glyphicon glyphicon-refresh"></span> Reload
+
+    </div>
+    <div class="media-body">
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>AGE</td>
+        <td>23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td>M</td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+  </div>
+  <hr>
+  
+  <!-- Right-aligned media object -->
+  <div class="media">
+    <div class="media-body">
+      <!-- <h4 class="media-heading">Person2</h4> -->
+<table class="table table-hover">
+    <tbody>
+      <tr>
+        <td>AGE</td>
+        <td>23</td>
+      </tr>
+      <tr>
+        <td>Gender</td>
+        <td>M</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+    <div class="media-right media-middle">
+      <img src="{% static 'avatar-profile.png' %}" class="media-object" style="width:100px">
+      <button type="button" class="btn btn-info">
+      <span class="glyphicon glyphicon-refresh"></span> Reload
+    </button>
+    </div>
+  </div>
+
+<!-- <button class="custom-btn btn-4"><span><div id="age">AGE:</div></span></button> -->
+  <!-- <button class="custom-btn btn-5"><span><div id="gender">GENDER:</div></span></button></div> -->
+  </div>
+    <div class="col-sm-8">
+    <video autoplay="true" id="videoElement">
+    </video>
+  </div>
+  </div>
+    </div>
+<!--     <div id="menu3" class="tab-pane fade">
+      <h3>Menu 3</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+ -->  </div>
+</div>
+
+<!--     <button class="custom-btn btn-12 tablinks" onclick="openCity(event, 'Video1')">Video Mode</button>
+        <button class="custom-btn btn-12 tablinks" onclick="openCity(event, 'Image1')">Image Mode</button>
+        </div>
+ -->
+    <div id="Video1" class="tabcontent wrap">
+  <div class="left">
+  <button onclick="shoot()" id="button" class="custom-btn btn-9">Start Prediction</button><br/>
+  <button onclick="shoot_stop()" class="custom-btn btn-10">Stop Prediction</button><br/>
+<!-- <button class="custom-btn btn-4"><span><div id="age">AGE:</div></span></button> -->
+  <!-- <button class="custom-btn btn-5"><span><div id="gender">GENDER:</div></span></button> -->
+  <div class="shadow">
+  <div class="container1">
+  <h2>Instructions to use</h2><br/>
+  Press the button start Predictions<br/>
+    to start the predictions<br/>
+  Age and Gender will<br/>
+   appear in the box<br/>
+  To stop running the script<br/>
+   press the stop prediction button<br/>
+  </div>
+</div>
+</div>
+  <div class="right">
+  
+
+  </div>
+  <div class="center">
+        <div id="container2">
+    <video autoplay="true" id="videoElement">
+     
+    </video>
+</div>
+</div>
+</div>
+   <div id="Image1" class="tabcontent wrap">
+  <div class="left">
+  <!-- <input type="file" onchange="readURL(this);" name="myfile" id="image"><br/> -->
+  <button onclick="predict_image()" class="custom-btn btn-9">Predict Avatar</button><br/>
+<button class="custom-btn btn-4"><span><div id="age1">AGE:</div></span></button>
+  <button class="custom-btn btn-5"><span><div id="gender1">GENDER:</div></span></button>
+  <div class="shadow">
+  <div class="container1">
+  <h2>Instructions to use</h2><br/>
+  Select a particular image<br/>
+  Press predict to get<br/>
+   age and gender<br/>
+  Age and Gender will<br/>
+   appear in the box<br/>
+  </div>
+</div>
+</div>
+  <div class="right">
+  
+
+  </div>
+  <div class="center">
+        <div id="container2">
+    <!-- <img id="blah" src="#" alt="your image" /> -->
+</div>
+</div>
+</div>
+<!--     <div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
+ -->        <script>
+ var videoId = 'videoElement';
+var scaleFactor = 1;
+var snapshots = [];
+ var prediction_start = 0;
+ var avatar1 = 1;
+ var avatar2 = 1;
+$(document).on('click', '.browse', function(){
+  var file = $(this).parent().parent().parent().find('.file');
+  file.trigger('click');
+});
+$(document).on('change', '.file', function(){
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+
+ 	function readURL(input) {
+    // alert("hello!");
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                // alert("hello!");
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(500)
+                        .height(375);
+                };
+                // var username = "yash gaurkar"
+    
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+ 
+        var video = document.querySelector("#videoElement");
+ 
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+ 
+if (navigator.getUserMedia) {       
+    navigator.getUserMedia({video: true}, handleVideo, videoError);
+}
+ 
+function handleVideo(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}
+ 
+function videoError(e) {
+    // do something
+}
+
+/**
+ * Captures a image frame from the provided video element.
+ *
+ * @param {Video} video HTML5 video element from where the image frame will be captured.
+ * @param {Number} scaleFactor Factor to scale the canvas element that will be return. This is an optional parameter.
+ *
+ * @return {Canvas}
+ */
+function capture(video, scaleFactor) {
+    if(scaleFactor == null){
+        scaleFactor = 1;
+    }
+    var w = video.videoWidth * scaleFactor;
+    var h = video.videoHeight * scaleFactor;
+    var canvas = document.createElement('canvas');
+        canvas.width  = w;
+        canvas.height = h;
+    var ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, w, h);
+    return canvas;
+} 
+ 
+/**
+ * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
+ */
+ function shoot_stop(){
+ 	prediction_start = 0;
+ }
+ function reload_avatar1(){
+  avatar1 = 1;
+ }
+ function reload_avatar2(){
+  avatar2 = 1;
+ }
+function shoot(){
+	prediction_start = 1;
+    // var video  = document.getElementById(videoId);
+    // var output = document.getElementById('output');
+    var canvas = capture(video, scaleFactor);
+        canvas.onclick = function(){
+            window.open(this.toDataURL());
+        };
+    image_data = canvas.toDataURL();
+    // console.log(image_data);
+    // // create_post(image_data);
+    // snapshots.unshift(canvas);
+    // output.innerHTML = '';
+    // for(var i=0; i<4; i++){
+    //     // output.appendChild(snapshots[i]);
+    //     output.appendChild(canvas);
+    // }
+    var file = dataURItoBlob(image_data);
+    var form = new FormData();
+                form.append('image', file);
+                $.ajax({
+                    url : "/validate/",
+                    type: "POST",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data : form,
+                    success: function(response){
+                      if(response.age1 != "0"){
+            document.getElementById('age1').innerHTML = response.age1;
+            document.getElementById('gender1').innerHTML = response.gender1;
+           if(avatar1 == 1){
+                        document.getElementById('avatar1').src = "/media/avatar1.jpg?time=".concat(new Date().getTime());
+                        avatar1 = 0;
+                      }
+        }
+        if(response.age2 != "0"){
+            document.getElementById('age2').innerHTML = response.age2;
+            document.getElementById('gender2').innerHTML = response.gender2;
+            if(avatar2 == 1){
+                        document.getElementById('avatar2').src = "/media/avatar2.jpg?time=".concat(new Date().getTime());
+                        avatar2 = 0;
+                      }
+        }
+        if(prediction_start == 1){
+                        document.getElementById("button").click()
+                    }
+                }
+                });
+}
+function dataURItoBlob(dataURI) {
+// convert base64/URLEncoded data component to raw binary data held in a string
+var byteString;
+if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    byteString = atob(dataURI.split(',')[1]);
+else
+    byteString = unescape(dataURI.split(',')[1]);
+// separate out the mime component
+var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+// write the bytes of the string to a typed array
+var ia = new Uint8Array(byteString.length);
+for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+}
+return new Blob([ia], {type:mimeString});
+}
+
+function predict_image(){
+    var file = $('#image')[0].files[0];
+    console.log(file);
+    var form = new FormData();
+    form.append('image', file);
+    $.ajax({
+        url : "/validate/",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data : form,
+        success: function(response){
+            if(response.age1 != "0"){
+            document.getElementById('age_image1').innerHTML = response.age1;
+            document.getElementById('gender_image1').innerHTML = response.gender1;
+            document.getElementById('avatar_image1').src = "/media/avatar1.jpg?time=".concat(new Date().getTime());
+        }
+        if(response.age2 != "0"){
+            document.getElementById('age_image2').innerHTML = response.age2;
+            document.getElementById('gender_image2').innerHTML = response.gender2;
+            document.getElementById('avatar_image2').src = "/media/avatar2.jpg?time=".concat(new Date().getTime());
+        }
+        }
+    });
+    }
+
+function upload_video(){
+    // var file = $('#upload_video')[0].files[0];
+    // console.log(file);
+    // var form1 = new FormData();
+    // form.append('video', file);
+    // form1.append('id', 'yashgaurkar');
+    $.ajax({
+        url : "/upload_video/",
+        type: "POST",
+        // cache: false,
+        contentType: false,
+        // processData: false,
+        data : {
+          'data1':'yash'
+        },
+        success: function(response){
+        alert("sucess");
+        }
+    });
+    }
+</script>
+    </body>
+    </html>

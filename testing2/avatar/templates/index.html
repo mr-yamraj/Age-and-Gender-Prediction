@@ -4,9 +4,14 @@
         <meta charset="UTF-8">
         <title>Jquery Ajax File Upload</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+	<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <style>
 #container {
     margin: 0px auto;
+    margin-bottom: 150px;
     width: 500px;
     height: 375px;
     border: 10px #333 solid;
@@ -16,20 +21,390 @@
     height: 375px;
     background-color: #666;
 }
+.wrap{
+    text-align:center
+}
+.left{
+    float: left;
+    /*background:grey*/
+}
+.right{
+    float: right;
+    /*background:red*/
+}
+.center{
+ 
+    /*background:green;*/
+    margin:0 auto;
+   display:inline-block
+}
+button {
+  margin: 20px;
+  margin-left: 150px;
+  margin-right: -150px;
+}
+.custom-btn {
+  padding: 10px 25px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  outline: none !important;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+/**** BTN No. 4 ****/
+.btn-4 {
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+}
+.btn-4 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btn-4:before, .btn-4:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-4:before {
+  height: 50%;
+  width: 2px;
+}
+.btn-4:after {
+  width: 20%;
+  height: 2px;
+}
+.btn-4:hover:before {height: 100%;}
+.btn-4:hover:after {width: 100%;}
+.btn-4 span:before, .btn-4 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-4 span:before {
+  width: 2px;
+  height: 50%;
+}
+.btn-4 span:after {
+  width: 20%;
+  height: 2px;
+}
+.btn-4 span:hover:before {height: 100%;}
+.btn-4 span:hover:after {width: 100%;}
+
+/**** BTN No. 5 ****/
+.btn-5 {
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+}
+.btn-5 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btn-5:before, .btn-5:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  bottom: 0;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-5:before {
+  height: 50%;
+  width: 2px;
+}
+.btn-5:after {
+  width: 20%;
+  height: 2px;
+}
+.btn-5:hover:before {height: 100%;}
+.btn-5:hover:after {width: 100%;}
+.btn-5 span:before, .btn-5 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-5 span:before {
+  width: 2px;
+  height: 50%;
+}
+.btn-5 span:after {
+  width: 20%;
+  height: 2px;
+}
+.btn-5 span:hover:before {height: 100%;}
+.btn-5 span:hover:after {width: 100%;}
+
+
+
+/**** BTN No. 9 ****/
+.btn-9 {
+  background: #f2f2f2;
+  border: 2px solid #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-9:before, .btn-9:after {
+  position: absolute;
+  content: ' ';
+  z-index: -1;
+  width: 25%;
+  top: 50%;
+  height: 2px;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-9:before {left: -10%;}
+.btn-9:after {right: -10%}
+.btn-9:hover {
+  background: #000;
+  color: #fff;
+}
+.btn-9:hover:before {left: -15%;}
+.btn-9:hover:after {right: -15%;}
+
+
+/**** BTN No. 10 ****/
+.btn-10 {
+  background: #f2f2f2;
+  border: 2px solid #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-10:before, .btn-10:after {
+  position: absolute;
+  content: ' ';
+  z-index: -1;
+  width: 25%;
+  top: 50%;
+  height: 2px;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-10:before {left: -15%;}
+.btn-10:after {right: -15%}
+.btn-10:hover {
+  background: #000;
+  color: #fff;
+}
+.btn-10:hover:before {left: -10%;}
+.btn-10:hover:after {right: -10%;}
+
+/**** BTN No. 12 ****/
+.btn-12 {
+  border: 2px solid #000;
+  z-index: 1;
+}
+.btn-12:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: #000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.btn-12:hover {
+  color: #fff;
+}
+.btn-12:hover:after {
+  top: 0;
+  height: 100%;
+}
+.btn-12:active {top: 2px;}
+
+.shadow {
+	  margin-left: 150px;
+  margin-right: -150px;
+-webkit-border-radius: 0% 0% 100% 100% / 0% 0% 8px 8px;
+-webkit-box-shadow: rgba(0, 0, 0,.30) 0 2px 3px;
+}
+.container1 {
+color: black;
+  margin: 0 auto;
+  margin-top: 0px;
+  height: 35vh;
+  background: #F2F2F2;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 2px #fff inset,
+              -1px -1px 2px #fff inset;
+  border-radius: 3px/6px;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
 </style>
     </head>
     <body>
+    <canvas id="c" width="400" height="200"></canvas>
+    <div class="tab">
+    <button class="custom-btn btn-12 tablinks" onclick="openCity(event, 'Video1')">Video Mode</button>
+        <button class="custom-btn btn-12 tablinks" onclick="openCity(event, 'Image1')">Image Mode</button>
+        </div>
+
+    <div id="Video1" class="tabcontent wrap">
+  <div class="left">
+  <button onclick="shoot()" id="button" class="custom-btn btn-9">Start Prediction</button><br/>
+  <button onclick="shoot_stop()" class="custom-btn btn-10">Stop Prediction</button><br/>
+<button class="custom-btn btn-4"><span><div id="age">AGE:</div></span></button>
+  <button class="custom-btn btn-5"><span><div id="gender">GENDER:</div></span></button>
+  <div class="shadow">
+  <div class="container1">
+  <h2>Instructions to use</h2><br/>
+  Press the button start Predictions<br/>
+    to start the predictions<br/>
+  Age and Gender will<br/>
+   appear in the box<br/>
+  To stop running the script<br/>
+   press the stop prediction button<br/>
+  </div>
+</div>
+</div>
+  <div class="right">
+  
+
+  </div>
+  <div class="center">
         <div id="container">
     <video autoplay="true" id="videoElement">
      
     </video>
 </div>
-<div id="age">AGE:</div>
-<div id="gender">GENDER:</div>
-<button onclick="shoot()" id="button" style="width: 64px;border: solid 2px #ccc;">Start Prediction</button><br/>
-<a href="{% url 'index' %}">Stop Prediction</a>
+</div>
+</div>
+   <div id="Image1" class="tabcontent wrap">
+  <div class="left">
+  <input type="file" onchange="readURL(this);" name="myfile" id="image"><br/>
+  <button onclick="predict_image()" class="custom-btn btn-9">Predict Avatar</button><br/>
+<button class="custom-btn btn-4"><span><div id="age1">AGE:</div></span></button>
+  <button class="custom-btn btn-5"><span><div id="gender1">GENDER:</div></span></button>
+  <div class="shadow">
+  <div class="container1">
+  <h2>Instructions to use</h2><br/>
+  Select a particular image<br/>
+  Press predict to get<br/>
+   age and gender<br/>
+  Age and Gender will<br/>
+   appear in the box<br/>
+  </div>
+</div>
+</div>
+  <div class="right">
+  
+
+  </div>
+  <div class="center">
+        <div id="container">
+    <img id="blah" src="#" alt="your image" />
+</div>
+</div>
+</div>
 <!--     <div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>
  -->        <script>
+ var videoId = 'videoElement';
+var scaleFactor = 1;
+var snapshots = [];
+ var prediction_start = 0;
+
+ 	function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(500)
+                        .height(375);
+                };
+                // var username = "yash gaurkar"
+    
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+ function openCity(evt, typeName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    if(typeName == "Image1"){
+    	prediction_start = 0;
+    }
+    document.getElementById(typeName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
         var video = document.querySelector("#videoElement");
  
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
@@ -46,10 +421,6 @@ function videoError(e) {
     // do something
 }
 
-var videoId = 'videoElement';
-var scaleFactor = 1;
-var snapshots = [];
- 
 /**
  * Captures a image frame from the provided video element.
  *
@@ -75,7 +446,11 @@ function capture(video, scaleFactor) {
 /**
  * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
  */
+ function shoot_stop(){
+ 	prediction_start = 0;
+ }
 function shoot(){
+	prediction_start = 1;
     // var video  = document.getElementById(videoId);
     // var output = document.getElementById('output');
     var canvas = capture(video, scaleFactor);
@@ -106,8 +481,10 @@ function shoot(){
                         document.getElementById('age').innerHTML = "AGE : ".concat(response.age);
                         document.getElementById('gender').innerHTML = "GENDER : ".concat(response.gender);
                     }
+                    if(prediction_start == 1){
                         document.getElementById("button").click()
                     }
+                }
                 });
 }
 function dataURItoBlob(dataURI) {
@@ -126,25 +503,27 @@ for (var i = 0; i < byteString.length; i++) {
 }
 return new Blob([ia], {type:mimeString});
 }
-        // $(document).ready(function(){
-        //     $('#image').change(function(e){
-        //         var file = $('#image')[0].files[0];
-        //         console.log(file);
-        //         var form = new FormData();
-        //         form.append('image', file);
-        //         $.ajax({
-        //             url : "/validate/",
-        //             type: "POST",
-        //             cache: false,
-        //             contentType: false,
-        //             processData: false,
-        //             data : form,
-        //             success: function(response){
-        //                 $('.result').html(response.html)
-        //             }
-        //         });
-        //     });
-        // });
+
+function predict_image(){
+    var file = $('#image')[0].files[0];
+    console.log(file);
+    var form = new FormData();
+    form.append('image', file);
+    $.ajax({
+        url : "/validate/",
+        type: "POST",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data : form,
+        success: function(response){
+            if(response.age != "0"){
+            document.getElementById('age1').innerHTML = "AGE : ".concat(response.age);
+            document.getElementById('gender1').innerHTML = "GENDER : ".concat(response.gender);
+        }
+        }
+    });
+    }
         </script>
     </body>
     </html>

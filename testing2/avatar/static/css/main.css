@@ -1,0 +1,28 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 50%;
+}
+
+body {
+	color: #ccc;
+	font-family: Helvetica Neue, Verdana, sans-serif;
+	font-size: 20px;
+}
+
+canvas, section {
+	display: block;
+}
+
+#c {
+	/*position: absolute;*/
+}
+
+#attribution {
+	bottom: 40px;
+	position: absolute;
+	right: 40px;
+}
